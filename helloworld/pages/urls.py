@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from pages.views import homePageView  #new
+from .views import homePageView  #new
 
 
 urlpatterns = [
