@@ -1,0 +1,34 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}Contact{% endblock %}
+
+{% block header_title %}
+Contact Us
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+        <!-- Columna izquierda -->
+        <div class="col-lg-4 ms-auto">
+            <p class="lead">
+                <strong>Name:</strong> {{ nombre }}
+            </p>
+
+            <p class="lead">
+                <strong>Email:</strong> {{ email }}
+            </p>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-lg-4 me-auto">
+            <p class="lead">
+                <strong>Phone:</strong> {{ phone }}
+            </p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
