@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views import View
-#from django.http import HttpResponse#new
+from django.http import HttpResponse, HttpResponseRedirect#, HttpResponseRedirect
 from django.views.generic import TemplateView#new
+from django.urls import reverse
 # Create your views here.
 
 #def homePageView(request):#new
@@ -44,17 +45,26 @@ class ProductIndexView(View):
         return render(request, self.template_name, viewData)
     
 class ProductShowView(View):
+    
     template_name = 'products/show.html'
 
     def get(self, request, id):
-        viewData = {}
-        product = Product.products[int(id)-1]
-        viewData["title"] = product["name"] + " - Online Store"
-        viewData["subtitle"] = product["name"] + " - Product information"
-        viewData["product"] = product
+        try:
+            # Convertimos id a entero y accedemos a la lista
+            product = Product.products[int(id) - 1]
+        except (IndexError, ValueError, TypeError):
+            # Si el id está fuera de rango o no es un número, redirigimos a home
+            return HttpResponseRedirect(reverse('home'))
+
+        # Preparar datos para la plantilla
+        viewData = {
+            "title": f"{product['name']} - Online Store",
+            "subtitle": f"{product['name']} - Product information",
+            "product": product
+        }
 
         return render(request, self.template_name, viewData)
-
+    
 class ContactPageView(View):
 
     template_name = 'pages/contacto.html'
