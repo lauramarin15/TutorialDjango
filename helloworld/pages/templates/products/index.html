@@ -12,6 +12,9 @@
 <a href="{% url 'show' id=product.id %}"
 class="btn bg-primary text-white">{{product.name}}</a>
 <p class="mt-2">{{product.description}}</p>
+{% if product.price > 100 %}
+    <span style="color: red;">{{ product.name }}</span>
+{% endif %}
 <p class="mt-2">Price: ${{product.price}}</p>
 </div>
 </div>

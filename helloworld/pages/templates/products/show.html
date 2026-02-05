@@ -13,7 +13,11 @@
 {{product.name}}
 </h5>
 <p class="card-text">{{product.description}}</p>
-<p class="card-text">Price: ${{product.price}}</p>
+{% if product.price > 100 %}
+    <span style="color: red;">{{ product.name }}</span>
+    <p class="card-text">Price: ${{product.price}}</p>
+{% endif %}
+
 </div>
 </div>
 </div>

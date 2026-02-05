@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import homePageView, AboutPageView,ProductShowView, ProductIndexView, ContactPageView #new
+from .views import homePageView, AboutPageView,ProductShowView, ProductIndexView, ContactPageView, ProductCreateView #new
 
 
 urlpatterns = [
@@ -9,7 +9,7 @@ urlpatterns = [
     path('products/', ProductIndexView.as_view(), name='index'),
     path('products/<str:id>', ProductShowView.as_view(), name='show'),
     path('contacto/', ContactPageView.as_view(), name='contacto'),
-    path('products/<int:id>/', ProductShowView.as_view(), name='show_product'),
-]
+    path('products/create', ProductCreateView.as_view(), name='form'),
+    path('products/<str:id>', ProductShowView.as_view(), name='show'),
 
- 
+]
