@@ -28,10 +28,10 @@ class AboutPageView(TemplateView):
     
 class Product:
     products = [
-        {"id":"1", "name":"TV", "description":"Best TV"},
-        {"id":"2", "name":"iPhone", "description":"Best iPhone"},
-        {"id":"3", "name":"Chromecast", "description":"Best Chromecast"},
-        {"id":"4", "name":"Glasses", "description":"Best Glasses"}
+        {"id":"1", "name":"TV", "description":"Best TV", "price":"1000"},
+        {"id":"2", "name":"iPhone", "description":"Best iPhone", "price":"1200"},
+        {"id":"3", "name":"Chromecast", "description":"Best Chromecast", "price":"300"},
+        {"id":"4", "name":"Glasses", "description":"Best Glasses", "price":"150"}
     ]
 
 class ProductIndexView(View):

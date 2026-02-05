@@ -11,6 +11,8 @@
 <div class="card-body text-center">
 <a href="{% url 'show' id=product.id %}"
 class="btn bg-primary text-white">{{product.name}}</a>
+<p class="mt-2">{{product.description}}</p>
+<p class="mt-2">Price: ${{product.price}}</p>
 </div>
 </div>
 </div>
