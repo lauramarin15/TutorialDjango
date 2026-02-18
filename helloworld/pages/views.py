@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect#, HttpResponseRedirect
-from django.views.generic import TemplateView#new
+from django.views.generic import TemplateView, ListView#new
 from django.urls import reverse
 from django import forms
 # Create your views here.
