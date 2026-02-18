@@ -10,6 +10,7 @@
 {% if form.errors %}
 <ul id="errors" class="alert alert-danger list-unstyled">
 {% for field, errors in form.errors.items %}
+<div class="text-danger">{{ form.name.errors }}</div>
 {% for error in errors %}
 <li>{{ error }}</li>
 {% endfor %}

@@ -9,8 +9,8 @@ from django import forms
 #def homePageView(request):#new
 #   return HttpResponse("Hello, World!")#new
 
-#class HomePageView(TemplateView):
-#   template_name = "home.html"
+class HomePageView(TemplateView):
+   template_name = "home.html"
 
 
 def homePageView(request):
@@ -53,10 +53,10 @@ class ProductShowView(View):
 
         if id == "create":
             return render(request, "products/create.html")
-    
         try:
             # Convertimos id a entero y accedemos a la lista
-            product = Product.products[int(id) - 1]
+            product = Product.products[int(id-1)]
+            
         except (IndexError, ValueError, TypeError):
             # Si el id está fuera de rango o no es un número, redirigimos a home
             return HttpResponseRedirect(reverse('home'))
@@ -74,17 +74,25 @@ class ProductShowView(View):
 
         # Solo aceptamos POST en /products/create
         if id == "create":
+            form = ProductForm(request.POST)
+            if form.is_valid():
+                name = form.cleaned_data["name"]
+                price = form.cleaned_data["price"]  # YA es float y > 0
 
-            name = request.POST.get("name")
-            description = request.POST.get("description")
-            price = request.POST.get("price")
+                new_product = {
+                    "id": str(len(Product.products) + 1),
+                    "name": name,
+                    "price": str(price),
+                    
+                }
+                Product.products.append(new_product)
 
-            # Crear nuevo producto
-            new_product = {
-                "id": str(len(Product.products) + 1),
-                "name": name,
-                "price": price
-            }
+            #return HttpResponseRedirect(reverse("home"))
+
+            # Si el form NO es válido, vuelve al template con errores
+            return render(request, "products/create.html", {"form": form})
+
+            return HttpResponseRedirect(reverse("home"))
 
             Product.products.append(new_product)
 
@@ -114,6 +122,14 @@ class ContactPageView(View):
 class ProductForm(forms.Form):
     name = forms.CharField(required=True)
     price = forms.FloatField(required=True)
+
+    def clean_price(self):
+        price = self.cleaned_data.get("price")
+
+        if price <= 0:
+            raise forms.ValidationError("The price must be greater than zero.")
+        return price
+
 
 class ProductCreateView(View):
     template_name = 'products/create.html'
