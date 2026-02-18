@@ -116,7 +116,7 @@ class ProductCreateView(View):
 
         if form.is_valid():
             form.save()
-            return redirect('form')
+            return redirect('show')
 
         else:
             viewData = {}
