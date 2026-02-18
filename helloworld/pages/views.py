@@ -55,7 +55,6 @@ class ProductShowView(View):
             # If the product id is not valid, redirect to the home page
             return HttpResponseRedirect(reverse('home'))
 
-
         viewData = {}
 
         product = get_object_or_404(Product, pk=product_id)
@@ -68,37 +67,6 @@ class ProductShowView(View):
 
         return render(request, self.template_name, viewData)
 
-    def post(self, request, id):
-
-        # Solo aceptamos POST en /products/create
-        if id == "create":
-            form = ProductForm(request.POST)
-            if form.is_valid():
-                name = form.cleaned_data["name"]
-                price = form.cleaned_data["price"]  # YA es float y > 0
-
-                new_product = {
-                    "id": str(len(Product.products) + 1),
-                    "name": name,
-                    "price": str(price),
-                    
-                }
-                Product.products.append(new_product)
-
-            #return HttpResponseRedirect(reverse("home"))
-
-            # Si el form NO es válido, vuelve al template con errores
-            return render(request, "products/create.html", {"form": form})
-
-            return HttpResponseRedirect(reverse("home"))
-
-            Product.products.append(new_product)
-
-            # Volver a la lista
-            return HttpResponseRedirect(reverse("home"))
-
-        # Si hacen POST a otro id → home
-        return HttpResponseRedirect(reverse("home"))
     
 class ContactPageView(View):
 
@@ -117,15 +85,18 @@ class ContactPageView(View):
     
 
 
-class ProductForm(forms.Form):
-    name = forms.CharField(required=True)
-    price = forms.FloatField(required=True)
+class ProductForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ['name', 'price']
 
     def clean_price(self):
         price = self.cleaned_data.get("price")
 
         if price <= 0:
             raise forms.ValidationError("The price must be greater than zero.")
+
         return price
 
 
@@ -140,9 +111,13 @@ class ProductCreateView(View):
         return render(request, self.template_name, viewData)
 
     def post(self, request):
+
         form = ProductForm(request.POST)
+
         if form.is_valid():
-            return redirect(form)
+            form.save()
+            return redirect('form')
+
         else:
             viewData = {}
             viewData["title"] = "Create product"
